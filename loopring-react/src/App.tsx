@@ -1,6 +1,22 @@
 import "./styles.css";
 import { useConnect } from "./useConnect";
 import { walletServices, connectProvides } from "@loopring-web/web3-provider";
+import * as sdk from "@loopring-web/loopring-sdk";
+
+const chainId = sdk.ChainId.GOERLI;
+
+export const LoopringAPI = {
+  userAPI: new sdk.UserAPI({ chainId }),
+  exchangeAPI: new sdk.ExchangeAPI({ chainId }),
+  globalAPI: new sdk.GlobalAPI({ chainId }),
+  ammpoolAPI: new sdk.AmmpoolAPI({ chainId }),
+  walletAPI: new sdk.WalletAPI({ chainId }),
+  wsAPI: new sdk.WsAPI({ chainId }),
+  whitelistedUserAPI: new sdk.WhitelistedUserAPI({ chainId }),
+  nftAPI: new sdk.NFTAPI({ chainId }),
+  delegate: new sdk.DelegateAPI({ chainId }),
+  __chainId__: chainId,
+};
 
 export default function App() {
   useConnect();

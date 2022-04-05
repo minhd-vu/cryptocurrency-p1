@@ -1,3 +1,4 @@
+import { LoopringAPI } from "./App";
 import { ChainId, useConnectHook } from "./useConnectHook";
 
 export function useConnect() {
@@ -24,9 +25,15 @@ export function useConnect() {
       const accAddress = accounts[0];
       console.log(
         "After connect >>,network part start: step1 networkUpdate",
-        accAddress
+        accAddress,
       );
-      console.log("After connect >>,network part done: step2 check account");
+      const { accInfo } = await LoopringAPI.exchangeAPI.getAccount({
+        owner: accAddress,
+      });
+      console.log(
+        "After connect >>,network part done: step2 check account",
+        accInfo,
+      );
     }
   });
 }
