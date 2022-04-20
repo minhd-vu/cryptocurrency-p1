@@ -1,5 +1,6 @@
 {
   "name": "nft-minter",
+  "homepage": "https://minhd-vu.github.io/cryptocurrency-p1/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
