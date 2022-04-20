@@ -31,7 +31,11 @@ export const connectWallet = async () => {
           <p>
             {" "}
             🦊{" "}
-            <a target="_blank" href={`https://metamask.io/download.html`}>
+            <a
+              target="_blank"
+              href={`https://metamask.io/download.html`}
+              rel="noreferrer"
+            >
               You must install Metamask, a virtual Ethereum wallet, in your
               browser.
             </a>
@@ -73,7 +77,11 @@ export const getCurrentWalletConnected = async () => {
           <p>
             {" "}
             🦊{" "}
-            <a target="_blank" href={`https://metamask.io/download.html`}>
+            <a
+              target="_blank"
+              href={`https://metamask.io/download.html`}
+              rel="noreferrer"
+            >
               You must install Metamask, a virtual Ethereum wallet, in your
               browser.
             </a>
@@ -84,12 +92,19 @@ export const getCurrentWalletConnected = async () => {
   }
 };
 
+// eslint-disable-next-line no-unused-vars
 async function loadContract() {
   return new web3.eth.Contract(contractABI, contractAddress);
 }
 
+function getPosition(options) {
+  return new Promise((resolve, reject) =>
+    navigator.geolocation.getCurrentPosition(resolve, reject, options)
+  );
+}
+
 export const mintNFT = async (url, name, description) => {
-  if (url.trim() == "" || name.trim() == "" || description.trim() == "") {
+  if (url.trim() === "" || name.trim() === "" || description.trim() === "") {
     return {
       success: false,
       status: "❗Please make sure all fields are completed before minting.",
@@ -97,10 +112,15 @@ export const mintNFT = async (url, name, description) => {
   }
 
   //make metadata
-  const metadata = new Object();
+  const metadata = {};
   metadata.name = name;
   metadata.image = url;
   metadata.description = description;
+  const position = await getPosition();
+  metadata.location = {
+    latitude: position.coords.latitude,
+    longitude: position.coords.longitude,
+  };
 
   const pinataResponse = await pinJSONToIPFS(metadata);
   if (!pinataResponse.success) {
