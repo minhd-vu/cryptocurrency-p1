@@ -26,7 +26,7 @@ export function useConnectHook({
     errorObj: any;
   }) => void;
   // handleChainChanged?: (chainId: string) => void,
-  handleConnect?: (prosp: {
+  handleConnect?: (props: {
     accounts: string;
     provider: provider;
     chainId: ChainId | "unknown";

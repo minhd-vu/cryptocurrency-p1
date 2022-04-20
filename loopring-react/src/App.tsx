@@ -2,6 +2,7 @@ import "./styles.css";
 import { useConnect } from "./useConnect";
 import { walletServices, connectProvides } from "@loopring-web/web3-provider";
 import * as sdk from "@loopring-web/loopring-sdk";
+import axios from "axios";
 
 const chainId = sdk.ChainId.GOERLI;
 
@@ -35,6 +36,33 @@ export default function App() {
   const disconnect = () => {
     walletServices.sendDisconnect("", "disconnect");
   };
+  const getNFTData = async () => {
+    const res = await axios.get(
+      "https://uat2.loopring.io/api/v3/nft/info/nftData",
+      {
+        params: {
+          minter: "0x10e7ed474f44994320e3a3d10b4585e489ec58ec",
+          tokenAddress: "0xd2800b1c2f718b5190542426e899250342f9ab49",
+          nftId:
+            "0x820feae99d9828fbb021a814f6a929bd9aacec04eef9bd4a80346dc809e0e112",
+        },
+      }
+    );
+    // const res = await LoopringAPI.nftAPI.getContractNFTMeta({
+    //   web3: connectProvides.usedProvide,
+    //   tokenAddress: "0xd2800b1c2f718b5190542426e899250342f9ab49",
+    //   _id: "0x820feae99d9828fbb021a814f6a929bd9aacec04eef9bd4a80346dc809e0e112",
+    //   nftId:
+    //     "0x820feae99d9828fbb021a814f6a929bd9aacec04eef9bd4a80346dc809e0e112",
+    //   nftType: sdk.NFTType.ERC1155,
+    // });
+    // const res = await LoopringAPI.nftAPI.getInfoForNFTTokens({
+    //   nftDatas: [
+    //     "0x820feae99d9828fbb021a814f6a929bd9aacec04eef9bd4a80346dc809e0e112",
+    //   ],
+    // });
+    console.log(res);
+  };
   return (
     <div className="App">
       <h1>Hello Loopring React</h1>
@@ -61,6 +89,7 @@ export default function App() {
           />
         </button>
         <button onClick={disconnect}>disconnect</button>
+        <button onClick={getNFTData}>getNFTData</button>
       </div>
     </div>
   );
