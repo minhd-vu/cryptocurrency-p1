@@ -4,6 +4,7 @@ import {
   getCurrentWalletConnected,
   mintNFT,
 } from "./util/interact.js";
+import { Link } from "react-router-dom";
 
 const Minter = (props) => {
   const [walletAddress, setWallet] = useState("");
@@ -42,7 +43,11 @@ const Minter = (props) => {
         <p>
           {" "}
           🦊{" "}
-          <a target="_blank" href={`https://metamask.io/download.html`} rel="noreferrer">
+          <a
+            target="_blank"
+            href={`https://metamask.io/download.html`}
+            rel="noreferrer"
+          >
             You must install Metamask, a virtual Ethereum wallet, in your
             browser.
           </a>
@@ -69,6 +74,9 @@ const Minter = (props) => {
 
   return (
     <div className="Minter">
+      <Link to="/map">
+        <button id="nftButton">NFT Map</button>
+      </Link>
       <button id="walletButton" onClick={connectWalletPressed}>
         {walletAddress.length > 0 ? (
           "Connected: " +
