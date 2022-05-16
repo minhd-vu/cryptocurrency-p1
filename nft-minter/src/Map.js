@@ -63,7 +63,7 @@ const Map = (props) => {
         ref={mapRef}
         width="100%"
         height="100%"
-        mapStyle="mapbox://styles/mapbox/light-v9"
+        mapStyle="mapbox://styles/emarino135/cl395kp5v000715q5xkqsmi4h9"
         onViewportChange={handleViewportChange}
         mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
       >
