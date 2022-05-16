@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import ReactMapGL, { Marker } from "react-map-gl";
 import { web3 } from "./util/interact";
+import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
+mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 
 const Pin = (props) => {
   const { size = 50, onClick, image } = props;
@@ -21,14 +23,21 @@ const Pin = (props) => {
 };
 
 const Map = (props) => {
-  const [viewport, setViewport] = useState({
-    latitude: 38.8298,
-    longitude: -77.3074,
-    zoom: 8,
-  });
 
   const [tokens, setTokens] = useState([]);
-  const mapRef = useRef();
+
+  const mapContainer = useRef(null);
+  const map = useRef(null);
+
+  useEffect(() => {
+    if (map.current) return; // initialize map only once
+    map.current = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: "mapbox://styles/emarino135/cl395mdm3001714qgcd7adwsz",
+      center: [-77.3074, 38.8298],
+      zoom: 8,
+    });
+  });
 
   // fetch all of the NFTs from the contract with location metadata
   useEffect(() => {
@@ -51,32 +60,13 @@ const Map = (props) => {
     init();
   }, []);
 
-  const handleViewportChange = useCallback(
-    (newViewport) => setViewport(newViewport),
-    []
-  );
-
   return (
-    <div style={{ height: "100vh" }}>
-      <ReactMapGL
-        {...viewport}
-        ref={mapRef}
-        width="100%"
-        height="100%"
-        mapStyle="mapbox://styles/emarino135/cl395kp5v000715q5xkqsmi4h9"
-        onViewportChange={handleViewportChange}
-        mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
-      >
-        {tokens.map((token, index) => (
-          <Marker
-            key={index}
-            latitude={token.location.latitude}
-            longitude={token.location.longitude}
-          >
-            <Pin image={token.image} />
-          </Marker>
-        ))}
-      </ReactMapGL>
+    <div
+      ref={mapContainer}
+      style={{ height: "100vh" }}
+      className="map-container"
+    >
+      
     </div>
   );
 };
